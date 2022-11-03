@@ -28,25 +28,7 @@ namespace SalaryCalculation.Application
                 parameters.ParkingCost);
 
             employeeFinancialMetrics.CalculateMetrics(0.15, hoursInMonth, 15279, 7200, 0.13);
-            // сохранение в бд
-            //double mrot = 15279;
-            //double accountingPerYear = 7200;
-
-            //double salary = parameters.FullSalary * parameters.EmploymentType;
-
-            //double salaryBeforeTax = salary + salary * 0.15;
-            //double salaryAfterTax = salaryBeforeTax - salaryBeforeTax * 0.13;
-
-            //double ndfl = salaryBeforeTax * 0.13;
-            //double ops = mrot * 0.22 + (salaryBeforeTax - mrot) * 0.1;
-            //double oms = mrot * 0.051 + (salaryBeforeTax - mrot) * 0.05;
-            //double oss = mrot * 0.029;
-            //double injury = salaryBeforeTax * 0.002;
-            //double accounting = accountingPerYear / 12;
-
-            //double expenses = ndfl + salaryAfterTax + ops + oms + oss + injury + accounting + parameters.ParkingCost;
-            //double income = parameters.RatePerHour * hoursInMonth * parameters.EmploymentType;
-
+            // save to db
 
             return new EmployeeDto(
                 parameters.Id,
