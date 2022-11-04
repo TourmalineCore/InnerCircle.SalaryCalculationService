@@ -1,8 +1,8 @@
-﻿namespace SalaryCalculation.Application
+﻿namespace SalaryCalculation.Application.Services.Dtos
 {
     public class EmployeeDto
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public double Salary { get; set; }
         public double HourCostFact { get; set; }
         public double HourCostHand { get; set; }
@@ -13,7 +13,9 @@
         public double SalaryBeforeTax { get; set; }
         public double SalaryAftertax { get; set; }
 
-        public EmployeeDto(int id, double salary, double hourCostFact,
+        public EmployeeDto() { }
+
+        public EmployeeDto(long id, double salary, double hourCostFact,
             double hourCostHand, double income, double expenses,
             double profit, double profitability, double salaryBeforeTax, double salaryAfterTax
             )

@@ -1,30 +1,43 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SalaryCalculation.Application;
+using SalaryCalculation.Api.Controllers.RequestModels;
+using SalaryCalculation.Application.Services;
+using SalaryCalculation.Application.Services.Dtos;
 
 namespace SalaryCalculation.Api.Controllers
 {
     [Route("api/employee")]
     public class EmployeeController : Controller
     {
-        private readonly SalaryService _salaryService;
+        private readonly FinancialMetricsService _salaryService;
 
-        public EmployeeController(SalaryService salaryService)
+        public EmployeeController(FinancialMetricsService salaryService)
         {
             _salaryService = salaryService;
         }
 
-        [HttpGet("salary")]
-        public EmployeeDto GetSalaryCalculations(EmployeeSalaryDataRequest employeeSalaryDataRequest)
+        [HttpPost("calculate-financial-metrics")]
+        public Task CalculateMetrics([FromBody] EmployeeSalaryDataRequest employeeSalaryDataRequest)
         {
-            employeeSalaryDataRequest = new EmployeeSalaryDataRequest(1, 400, 20000, 1, 1800);
-            return _salaryService.Calculate(new SalaryCalculationParams
+            var employeeId = 1;
+            var ratePerHour = 400.00;
+            var fullSalary = 20000.00;
+            var employmentType = 1.0;
+
+            employeeSalaryDataRequest = new EmployeeSalaryDataRequest(employeeId, ratePerHour, fullSalary, employmentType);
+
+            return _salaryService.CalculateMetricsAsync(new SalaryCalculationParams
             {
-                Id = employeeSalaryDataRequest.Id,
+                EmployeeId = employeeSalaryDataRequest.EmployeeId,
                 RatePerHour = employeeSalaryDataRequest.RatePerHour,
                 FullSalary = employeeSalaryDataRequest.FullSalary,
                 EmploymentType = employeeSalaryDataRequest.EmploymentType,
-                ParkingCost = employeeSalaryDataRequest.ParkingCost
             });
+        }
+
+        [HttpGet("findById/{empId}")]
+        public Task<EmployeeDto> GetMetrics([FromRoute] long empId)
+        {
+            return _salaryService.GetEmployeeMetrics(empId);
         }
     }
 }

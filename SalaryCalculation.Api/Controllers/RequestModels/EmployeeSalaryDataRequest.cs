@@ -1,22 +1,20 @@
-﻿namespace SalaryCalculation.Api.Controllers
+﻿namespace SalaryCalculation.Api.Controllers.RequestModels
 {
     public class EmployeeSalaryDataRequest
     {
-        public int Id { get; set; }
+        public long EmployeeId { get; set; }
         public double RatePerHour { get; set; }
         public double FullSalary { get; set; }
         public double EmploymentType { get; set; }
-        public double ParkingCost { get; set; }
 
         public EmployeeSalaryDataRequest() { }
 
-        public EmployeeSalaryDataRequest(int id, double ratePerHour, double fullSalary, double employmentType, double parkingCost)
+        public EmployeeSalaryDataRequest(int employeeId, double ratePerHour, double fullSalary, double employmentType)
         {
-            Id = id;
+            EmployeeId = employeeId;
             RatePerHour = ratePerHour;
             FullSalary = fullSalary;
             EmploymentType = employmentType;
-            ParkingCost = parkingCost;
         }
     }
 }
