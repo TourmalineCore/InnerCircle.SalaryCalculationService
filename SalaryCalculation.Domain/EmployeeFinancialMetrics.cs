@@ -48,17 +48,21 @@ namespace SalaryCalculation.Domain
 
         public double CalculateHourCostFact()
         {
-            return Math.Round(Expenses / WorkingPlanConsts.WorkingHoursInMonth, 2);
+            var smt1 = WorkingPlanConsts.WorkingDaysInYear;
+            var smt2 = WorkingPlanConsts.WorkingDaysInYearWithoutVacation;
+            var smt3 = WorkingPlanConsts.WorkingDaysInYearWithoutVacationAndSick;
+            var smt4 = WorkingPlanConsts.WorkingDaysInMonth;
+            return Expenses / WorkingPlanConsts.WorkingHoursInMonth;
         }
 
         private double CalculateHourCostHand()
         {
-            return Math.Round(Salary / 160, 2);
+            return Salary / 160;
         }
 
         private double CalculateIncome()
         {
-            return Math.Round(RatePerHour * WorkingPlanConsts.WorkingHoursInMonth * EmploymentType, 2);
+            return RatePerHour * WorkingPlanConsts.WorkingHoursInMonth * EmploymentType;
         }
 
        private double CalculateExpenses(double mrot)
@@ -127,16 +131,15 @@ namespace SalaryCalculation.Domain
             double mrot,
             double tax)
         {
-            HourCostFact = CalculateHourCostFact();
-            HourCostHand = CalculateHourCostHand();
-            Income = CalculateIncome();
-            Expenses = CalculateExpenses(mrot);
-            Salary = CalculateSalary();
-            SalaryBeforeTax = CalculateSalaryBeforeTax(districtCoeff);
-            SalaryAftertax = CalculateSalaryAfterTax(tax);
-            
-            Profit = CalculateProfit();
-            ProfitAbility = CalculateProfitability();
+            Salary = Math.Round(CalculateSalary(), 2);
+            SalaryBeforeTax = Math.Round(CalculateSalaryBeforeTax(districtCoeff));
+            SalaryAftertax = Math.Round(CalculateSalaryAfterTax(tax));
+            Income = Math.Round(CalculateIncome(),2);
+            Expenses = Math.Round(CalculateExpenses(mrot),2);
+            HourCostFact = Math.Round(CalculateHourCostFact(),2);
+            HourCostHand = Math.Round(CalculateHourCostHand(),2);
+            Profit = Math.Round(CalculateProfit(),2);
+            ProfitAbility = Math.Round(CalculateProfitability(),2);
         }
     }
 }
