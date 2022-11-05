@@ -1,11 +1,13 @@
 ﻿using Salarycalculation.DataAccess;
 using SalaryCalculation.Application.HelpServices;
+using SalaryCalculation.Application.Services.Commands;
 using SalaryCalculation.Application.Services.Dtos;
+using SalaryCalculation.Application.Services.Queries;
 using SalaryCalculation.Domain;
 
 namespace SalaryCalculation.Application.Services
 {
-    public class SalaryCalculationParams
+    public partial class SalaryCalculationParams
     {
         public long EmployeeId { get; set; }
 
@@ -18,54 +20,25 @@ namespace SalaryCalculation.Application.Services
 
     public class FinancialMetricsService
     {
-        private readonly ITaxDataService _taxDataService;
-        private readonly FakeDataBase _fakeDataBase;
+        private readonly GetEmployeeMetricsQueryHandler _getEmployeeMetricsQueryHandler;
 
-        public FinancialMetricsService(ITaxDataService helpService, FakeDataBase fakeDataBase)
+        private readonly CalculateMetricsCommandHandler _calculateMetricsCommandHandler;
+
+        public FinancialMetricsService(GetEmployeeMetricsQueryHandler getEmployeeMetricsQueryHandler,
+            CalculateMetricsCommandHandler calculateMetricsCommandHandler)
         {
-            _taxDataService = helpService;
-            _fakeDataBase = fakeDataBase;
+            _getEmployeeMetricsQueryHandler = getEmployeeMetricsQueryHandler;
+            _calculateMetricsCommandHandler = calculateMetricsCommandHandler;
         }
 
-        public async Task CalculateMetricsAsync(SalaryCalculationParams parameters)
+        public async Task CalculateMetricsAsync(CalculateMetricsCommand calculateMetricsCommand)
         {
-            var employeeFinancialMetrics = new EmployeeFinancialMetrics(parameters.EmployeeId,
-                parameters.RatePerHour,
-                parameters.FullSalary,
-                parameters.EmploymentType);
-
-            var districtCoeff = await _taxDataService.GetChelyabinskDistrictCoeff();
-            var personalIncomeTaxPercent = await _taxDataService.GetPersonalIncomeTaxPercent();
-            var minimalSizeOfSalary = await _taxDataService.GetMinimalSizeOfSalary();
-
-            employeeFinancialMetrics.CalculateMetrics(districtCoeff, minimalSizeOfSalary, personalIncomeTaxPercent);
-
-            _fakeDataBase.SaveAsync(employeeFinancialMetrics);
+            await _calculateMetricsCommandHandler.Handle(calculateMetricsCommand);
         }
 
-        // Move to query
-        public Task<EmployeeDto> GetEmployeeMetrics(long empId)
+        public Task<EmployeeDto> GetEmployeeMetrics(GetEmployeeMetricsQuery getEmployeeMetricsQuery)
         {
-            var empFinancialMetrics = _fakeDataBase.Get(empId);
-
-            if (empFinancialMetrics == null)
-            {
-                return Task.FromResult(new EmployeeDto());
-            }
-
-            return Task.FromResult(
-                new EmployeeDto(
-                empFinancialMetrics.EmployeeId,
-                empFinancialMetrics.Salary,
-                empFinancialMetrics.HourCostFact,
-                empFinancialMetrics.HourCostHand,
-                empFinancialMetrics.Income,
-                empFinancialMetrics.Expenses,
-                empFinancialMetrics.Profit,
-                empFinancialMetrics.ProfitAbility,
-                empFinancialMetrics.SalaryBeforeTax,
-                empFinancialMetrics.SalaryAftertax
-                ));
+            return _getEmployeeMetricsQueryHandler.Handle(getEmployeeMetricsQuery);
         }
     }
 }

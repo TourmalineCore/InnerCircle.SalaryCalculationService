@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SalaryCalculation.Api.Controllers.RequestModels;
 using SalaryCalculation.Application.Services;
+using SalaryCalculation.Application.Services.Commands;
 using SalaryCalculation.Application.Services.Dtos;
+using SalaryCalculation.Application.Services.Queries;
 
 namespace SalaryCalculation.Api.Controllers
 {
@@ -25,19 +27,23 @@ namespace SalaryCalculation.Api.Controllers
 
             employeeSalaryDataRequest = new EmployeeSalaryDataRequest(employeeId, ratePerHour, fullSalary, employmentType);
 
-            return _salaryService.CalculateMetricsAsync(new SalaryCalculationParams
+            CalculateMetricsCommand calculate = new CalculateMetricsCommand();
+            calculate.SalaryCalculationParams = new SalaryCalculationParams
             {
                 EmployeeId = employeeSalaryDataRequest.EmployeeId,
                 RatePerHour = employeeSalaryDataRequest.RatePerHour,
                 FullSalary = employeeSalaryDataRequest.FullSalary,
                 EmploymentType = employeeSalaryDataRequest.EmploymentType,
-            });
+            };
+            return _salaryService.CalculateMetricsAsync(calculate);
         }
 
         [HttpGet("findById/{empId}")]
         public Task<EmployeeDto> GetMetrics([FromRoute] long empId)
         {
-            return _salaryService.GetEmployeeMetrics(empId);
+            GetEmployeeMetricsQuery getEmployeeMetricsQuery = new GetEmployeeMetricsQuery();
+            getEmployeeMetricsQuery.EmployeeId = empId;
+            return _salaryService.GetEmployeeMetrics(getEmployeeMetricsQuery);
         }
     }
 }
