@@ -76,31 +76,26 @@ namespace SalaryCalculation.Domain
 
         public double GetNdflValue()
         {
-            double value = SalaryBeforeTax * 0.13;
             return SalaryBeforeTax * 0.13;
         }
 
         public double GetPensionContributions(double mrot)
         {
-            double sum = mrot * 0.22 + (SalaryBeforeTax - mrot) * 0.1;
             return mrot * 0.22 + (SalaryBeforeTax - mrot) * 0.1;
         }
 
         public double GetMedicalContributions(double mrot)
         {
-            double val = mrot * 0.051 + (SalaryBeforeTax - mrot) * 0.05;
             return mrot * 0.051 + (SalaryBeforeTax - mrot) * 0.05;
         }
 
         public double GetSocialInsuranceContributions(double mrot)
         {
-            double val = mrot * 0.029;
             return mrot * 0.029;
         }
 
         public double GetInjuriesContributions()
         {
-            double val = SalaryBeforeTax * 0.002;
             return SalaryBeforeTax * 0.002;
         }
 
