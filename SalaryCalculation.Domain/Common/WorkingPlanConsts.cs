@@ -2,9 +2,9 @@
 {
     public class WorkingPlanConsts
     {
-        public const int WorkingDaysInYear = 247;
+        public const double WorkingDaysInYear = 247;
 
-        public const int WorkingDaysInYearWithoutVacation = WorkingDaysInYear - 24;
+        public const double WorkingDaysInYearWithoutVacation = WorkingDaysInYear - 24;
 
         public const double WorkingDaysInYearWithoutVacationAndSick = WorkingDaysInYearWithoutVacation - 20;
 

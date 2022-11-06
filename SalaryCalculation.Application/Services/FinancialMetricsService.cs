@@ -16,6 +16,7 @@ namespace SalaryCalculation.Application.Services
         public double FullSalary { get; set; }
 
         public double EmploymentType { get; set; }
+        public bool Parking { get; set; }
     }
 
     public class FinancialMetricsService

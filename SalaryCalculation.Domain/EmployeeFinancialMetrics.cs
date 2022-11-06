@@ -36,36 +36,33 @@ namespace SalaryCalculation.Domain
 
         public double AccountingPerMonth { get; private set; }
 
-        public EmployeeFinancialMetrics(long employeeId, double ratePerHour, double fullSalary, double employmentType)
+        public EmployeeFinancialMetrics(long employeeId, double ratePerHour, double fullSalary, double employmentType, bool parking)
         {
             EmployeeId = employeeId;
             RatePerHour = ratePerHour;
             FullSalary = fullSalary;
             EmploymentType = employmentType;
-            ParkingCostPerMonth = ThirdPartyServicesPriceConsts.ParkingCostPerMonth;
+            ParkingCostPerMonth = parking ? ThirdPartyServicesPriceConsts.ParkingCostPerMonth : 0;
             AccountingPerMonth = ThirdPartyServicesPriceConsts.AccountingPerMonth;
         }
 
+
         public double CalculateHourCostFact()
         {
-            var smt1 = WorkingPlanConsts.WorkingDaysInYear;
-            var smt2 = WorkingPlanConsts.WorkingDaysInYearWithoutVacation;
-            var smt3 = WorkingPlanConsts.WorkingDaysInYearWithoutVacationAndSick;
-            var smt4 = WorkingPlanConsts.WorkingDaysInMonth;
             return Expenses / WorkingPlanConsts.WorkingHoursInMonth;
         }
 
-        private double CalculateHourCostHand()
+        public double CalculateHourCostHand()
         {
             return Salary / 160;
         }
 
-        private double CalculateIncome()
+        public double CalculateIncome()
         {
             return RatePerHour * WorkingPlanConsts.WorkingHoursInMonth * EmploymentType;
         }
 
-       private double CalculateExpenses(double mrot)
+        public double CalculateExpenses(double mrot)
         {
             return GetNdflValue() +
                 SalaryAftertax + 
@@ -77,52 +74,57 @@ namespace SalaryCalculation.Domain
                 ParkingCostPerMonth;
         }
 
-        private double GetNdflValue()
+        public double GetNdflValue()
         {
+            double value = SalaryBeforeTax * 0.13;
             return SalaryBeforeTax * 0.13;
         }
 
-        private double GetPensionContributions(double mrot)
+        public double GetPensionContributions(double mrot)
         {
+            double sum = mrot * 0.22 + (SalaryBeforeTax - mrot) * 0.1;
             return mrot * 0.22 + (SalaryBeforeTax - mrot) * 0.1;
         }
 
-        private double GetMedicalContributions(double mrot)
+        public double GetMedicalContributions(double mrot)
         {
+            double val = mrot * 0.051 + (SalaryBeforeTax - mrot) * 0.05;
             return mrot * 0.051 + (SalaryBeforeTax - mrot) * 0.05;
         }
 
-        private double GetSocialInsuranceContributions(double mrot)
+        public double GetSocialInsuranceContributions(double mrot)
         {
+            double val = mrot * 0.029;
             return mrot * 0.029;
         }
 
-        private double GetInjuriesContributions()
+        public double GetInjuriesContributions()
         {
+            double val = SalaryBeforeTax * 0.002;
             return SalaryBeforeTax * 0.002;
         }
 
-        private double CalculateProfit()
+        public double CalculateProfit()
         {
             return Income - Expenses;
         }
 
-        private double CalculateProfitability()
+        public double CalculateProfitability()
         {
             return (Income - Expenses) / Income * 100;
         }
 
-        private double CalculateSalaryBeforeTax(double districtCoeff)
+        public double CalculateSalaryBeforeTax(double districtCoeff)
         {
            return Salary + Salary * districtCoeff;
         }
 
-        private double CalculateSalaryAfterTax(double tax)
+        public double CalculateSalaryAfterTax(double tax)
         {
             return SalaryBeforeTax - SalaryBeforeTax * tax;
         }
 
-        private double CalculateSalary()
+        public double CalculateSalary()
         {
             return FullSalary * EmploymentType;
         }

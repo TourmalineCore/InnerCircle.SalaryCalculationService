@@ -29,7 +29,8 @@ namespace SalaryCalculation.Application.Services.Commands
             var employeeFinancialMetrics = new EmployeeFinancialMetrics(CalculateMetrics.SalaryCalculationParams.EmployeeId,
                 CalculateMetrics.SalaryCalculationParams.RatePerHour,
                 CalculateMetrics.SalaryCalculationParams.FullSalary,
-                CalculateMetrics.SalaryCalculationParams.EmploymentType);
+                CalculateMetrics.SalaryCalculationParams.EmploymentType,
+                CalculateMetrics.SalaryCalculationParams.Parking);
 
             var districtCoeff = await _taxDataService.GetChelyabinskDistrictCoeff();
             var personalIncomeTaxPercent = await _taxDataService.GetPersonalIncomeTaxPercent();
