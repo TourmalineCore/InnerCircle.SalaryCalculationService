@@ -1,11 +1,5 @@
-﻿using SalaryCalculation.Application.HelpServices;
-using Salarycalculation.DataAccess;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SalaryCalculation.Domain;
+﻿using SalaryCalculation.Domain;
+using Salarycalculation.DataAccess.Repositories;
 
 namespace SalaryCalculation.Application.Services.Commands
 {
@@ -15,30 +9,22 @@ namespace SalaryCalculation.Application.Services.Commands
     }
     public class CalculateMetricsCommandHandler
     {
-        private readonly ITaxDataService _taxDataService;
-        private readonly FakeDataBase _fakeDataBase;
+        private readonly EmployeeSalaryMetricsRepository _employeeSalaryMetricsRepository;
 
-        public CalculateMetricsCommandHandler(ITaxDataService taxDataService, FakeDataBase fakeDataBase)
+        public CalculateMetricsCommandHandler(EmployeeSalaryMetricsRepository employeeSalaryMetricsRepository)
         {
-            _taxDataService = taxDataService;
-            _fakeDataBase = fakeDataBase;
+            _employeeSalaryMetricsRepository = employeeSalaryMetricsRepository;
         }
 
-        public async Task Handle(CalculateMetricsCommand CalculateMetrics)
+        public async Task Handle(CalculateMetricsCommand calculateMetrics)
         {
-            var employeeFinancialMetrics = new EmployeeFinancialMetrics(CalculateMetrics.SalaryCalculationParams.EmployeeId,
-                CalculateMetrics.SalaryCalculationParams.RatePerHour,
-                CalculateMetrics.SalaryCalculationParams.FullSalary,
-                CalculateMetrics.SalaryCalculationParams.EmploymentType,
-                CalculateMetrics.SalaryCalculationParams.Parking);
-
-            var districtCoeff = await _taxDataService.GetChelyabinskDistrictCoeff();
-            var personalIncomeTaxPercent = await _taxDataService.GetPersonalIncomeTaxPercent();
-            var minimalSizeOfSalary = await _taxDataService.GetMinimalSizeOfSalary();
-
-            employeeFinancialMetrics.CalculateMetrics(districtCoeff, minimalSizeOfSalary, personalIncomeTaxPercent);
-
-            _fakeDataBase.SaveAsync(employeeFinancialMetrics);
+            _employeeSalaryMetricsRepository.CalculateEmployeeSalaryMetrics(new EmployeeFinancialMetrics(
+                calculateMetrics.SalaryCalculationParams.EmployeeId,
+                calculateMetrics.SalaryCalculationParams.RatePerHour,
+                calculateMetrics.SalaryCalculationParams.FullSalary,
+                calculateMetrics.SalaryCalculationParams.EmploymentType,
+                calculateMetrics.SalaryCalculationParams.Parking
+                ));
         }
     }
 }

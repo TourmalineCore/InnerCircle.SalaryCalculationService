@@ -1,6 +1,5 @@
 
 using Microsoft.Extensions.DependencyInjection;
-using SalaryCalculation.Application.HelpServices;
 using SalaryCalculation.Application.Services.Commands;
 using SalaryCalculation.Application.Services.Queries;
 
@@ -10,7 +9,7 @@ namespace SalaryCalculation.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddTransient<ITaxDataService, FakeTaxService>();
+            
             services.AddTransient<GetEmployeeMetricsQueryHandler>();
             services.AddTransient<CalculateMetricsCommandHandler>();
 

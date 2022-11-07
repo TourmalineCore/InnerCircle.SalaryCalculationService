@@ -1,11 +1,6 @@
 ﻿using SalaryCalculation.Application.Services.Dtos;
 using Salarycalculation.DataAccess;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SalaryCalculation.Application.HelpServices;
+
 
 namespace SalaryCalculation.Application.Services.Queries
 {
