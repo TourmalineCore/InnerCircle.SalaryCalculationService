@@ -131,15 +131,15 @@ namespace SalaryCalculation.Domain
             double mrot,
             double tax)
         {
-            Salary = Math.Round(CalculateSalary(), 2);
-            SalaryBeforeTax = Math.Round(CalculateSalaryBeforeTax(districtCoeff));
-            SalaryAftertax = Math.Round(CalculateSalaryAfterTax(tax));
-            Income = Math.Round(CalculateIncome(),2);
-            Expenses = Math.Round(CalculateExpenses(mrot),2);
-            HourCostFact = Math.Round(CalculateHourCostFact(),2);
-            HourCostHand = Math.Round(CalculateHourCostHand(),2);
-            Profit = Math.Round(CalculateProfit(),2);
-            ProfitAbility = Math.Round(CalculateProfitability(),2);
+            Salary = CalculateSalary();
+            SalaryBeforeTax = CalculateSalaryBeforeTax(districtCoeff);
+            SalaryAftertax = CalculateSalaryAfterTax(tax);
+            Income = CalculateIncome();
+            Expenses = CalculateExpenses(mrot);
+            HourCostFact = CalculateHourCostFact();
+            HourCostHand = CalculateHourCostHand();
+            Profit = CalculateProfit();
+            ProfitAbility = CalculateProfitability();
         }
     }
 }
