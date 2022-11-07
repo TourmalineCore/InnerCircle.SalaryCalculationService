@@ -47,22 +47,22 @@ namespace SalaryCalculation.Domain
         }
 
 
-        public double CalculateHourCostFact()
+        private double CalculateHourCostFact()
         {
             return Expenses / WorkingPlanConsts.WorkingHoursInMonth;
         }
 
-        public double CalculateHourCostHand()
+        private double CalculateHourCostHand()
         {
             return Salary / 160;
         }
 
-        public double CalculateIncome()
+        private double CalculateIncome()
         {
             return RatePerHour * WorkingPlanConsts.WorkingHoursInMonth * EmploymentType;
         }
 
-        public double CalculateExpenses(double mrot)
+        private double CalculateExpenses(double mrot)
         {
             return GetNdflValue() +
                 SalaryAftertax + 
@@ -74,52 +74,52 @@ namespace SalaryCalculation.Domain
                 ParkingCostPerMonth;
         }
 
-        public double GetNdflValue()
+        private double GetNdflValue()
         {
             return SalaryBeforeTax * 0.13;
         }
 
-        public double GetPensionContributions(double mrot)
+        private double GetPensionContributions(double mrot)
         {
             return mrot * 0.22 + (SalaryBeforeTax - mrot) * 0.1;
         }
 
-        public double GetMedicalContributions(double mrot)
+        private double GetMedicalContributions(double mrot)
         {
             return mrot * 0.051 + (SalaryBeforeTax - mrot) * 0.05;
         }
 
-        public double GetSocialInsuranceContributions(double mrot)
+        private double GetSocialInsuranceContributions(double mrot)
         {
             return mrot * 0.029;
         }
 
-        public double GetInjuriesContributions()
+        private double GetInjuriesContributions()
         {
             return SalaryBeforeTax * 0.002;
         }
 
-        public double CalculateProfit()
+        private double CalculateProfit()
         {
             return Income - Expenses;
         }
 
-        public double CalculateProfitability()
+        private double CalculateProfitability()
         {
             return (Income - Expenses) / Income * 100;
         }
 
-        public double CalculateSalaryBeforeTax(double districtCoeff)
+        private double CalculateSalaryBeforeTax(double districtCoeff)
         {
            return Salary + Salary * districtCoeff;
         }
 
-        public double CalculateSalaryAfterTax(double tax)
+        private double CalculateSalaryAfterTax(double tax)
         {
             return SalaryBeforeTax - SalaryBeforeTax * tax;
         }
 
-        public double CalculateSalary()
+        private double CalculateSalary()
         {
             return FullSalary * EmploymentType;
         }

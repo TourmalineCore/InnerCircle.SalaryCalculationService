@@ -9,7 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\Salarycalculation.DataAccess.csproj" />
     <ProjectReference Include="..\SalaryCalculation.Application\SalaryCalculation.Application.csproj" />
-    <ProjectReference Include="..\SalaryCalculation.Domain\SalaryCalculation.Domain.csproj" />
   </ItemGroup>
 
 </Project>

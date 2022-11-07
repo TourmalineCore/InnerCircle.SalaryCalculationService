@@ -23,17 +23,20 @@ namespace SalaryCalculation.Api.Controllers
             var employeeId = 1;
             var ratePerHour = 400.00;
             var fullSalary = 20000.00;
-            var employmentType = 1.0;
+            var employmentType = EmploymentType.Fulltime;
+            var parking = true;
 
-            employeeSalaryDataRequest = new EmployeeSalaryDataRequest(employeeId, ratePerHour, fullSalary, employmentType);
+            employeeSalaryDataRequest = new EmployeeSalaryDataRequest(employeeId, ratePerHour, fullSalary, employmentType, parking);
 
             CalculateMetricsCommand calculate = new CalculateMetricsCommand();
+
             calculate.SalaryCalculationParams = new SalaryCalculationParams
             {
                 EmployeeId = employeeSalaryDataRequest.EmployeeId,
                 RatePerHour = employeeSalaryDataRequest.RatePerHour,
                 FullSalary = employeeSalaryDataRequest.FullSalary,
-                EmploymentType = employeeSalaryDataRequest.EmploymentType,
+                EmploymentType = employeeSalaryDataRequest.EmploymentTypeValue,
+                Parking = employeeSalaryDataRequest.Parking
             };
             return _salaryService.CalculateMetricsAsync(calculate);
         }

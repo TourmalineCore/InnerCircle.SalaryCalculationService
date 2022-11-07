@@ -11,11 +11,12 @@ namespace SalaryCalculation.Tests
             var ratePerHour = 400.00;
             var fullSalary = 20000.00;
             var employmentType = 1.0;
+            var parking = true;
             
             EmployeeFinancialMetrics metrics = new EmployeeFinancialMetrics(employeeId, 
                 ratePerHour, 
                 fullSalary, 
-                employmentType, true);
+                employmentType, parking);
 
             metrics.CalculateMetrics(0.15, 15279, 0.13);
 

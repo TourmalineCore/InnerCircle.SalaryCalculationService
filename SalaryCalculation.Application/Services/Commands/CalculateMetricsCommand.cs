@@ -18,9 +18,9 @@ namespace SalaryCalculation.Application.Services.Commands
         private readonly ITaxDataService _taxDataService;
         private readonly FakeDataBase _fakeDataBase;
 
-        public CalculateMetricsCommandHandler(ITaxDataService helpService, FakeDataBase fakeDataBase)
+        public CalculateMetricsCommandHandler(ITaxDataService taxDataService, FakeDataBase fakeDataBase)
         {
-            _taxDataService = helpService;
+            _taxDataService = taxDataService;
             _fakeDataBase = fakeDataBase;
         }
 
