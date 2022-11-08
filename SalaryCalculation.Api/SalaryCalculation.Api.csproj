@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataAccess\Salarycalculation.DataAccess.csproj" />
     <ProjectReference Include="..\SalaryCalculation.Application\SalaryCalculation.Application.csproj" />
   </ItemGroup>
 

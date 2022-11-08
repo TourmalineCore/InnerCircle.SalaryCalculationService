@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SalaryCalculation.Api.Controllers.RequestModels;
-using SalaryCalculation.Application.Services;
 using SalaryCalculation.Application.Services.Commands;
 using SalaryCalculation.Application.Services.Dtos;
 using SalaryCalculation.Application.Services.Queries;
@@ -10,11 +9,15 @@ namespace SalaryCalculation.Api.Controllers
     [Route("api/employee")]
     public class EmployeeController : Controller
     {
-        private readonly FinancialMetricsService _salaryService;
+        private readonly GetEmployeeMetricsQueryHandler _getEmployeeMetricsQueryHandler;
 
-        public EmployeeController(FinancialMetricsService salaryService)
+        private readonly CalculateMetricsCommandHandler _calculateMetricsCommandHandler;
+
+        public EmployeeController(GetEmployeeMetricsQueryHandler getEmployeeMetricsQueryHandler,
+            CalculateMetricsCommandHandler calculateMetricsCommandHandler)
         {
-            _salaryService = salaryService;
+            _getEmployeeMetricsQueryHandler = getEmployeeMetricsQueryHandler;
+            _calculateMetricsCommandHandler = calculateMetricsCommandHandler;
         }
 
         [HttpPost("calculate-financial-metrics")]
@@ -27,18 +30,14 @@ namespace SalaryCalculation.Api.Controllers
             var parking = true;
 
             employeeSalaryDataRequest = new EmployeeSalaryDataRequest(employeeId, ratePerHour, fullSalary, employmentType, parking);
-
-            CalculateMetricsCommand calculate = new CalculateMetricsCommand();
-
-            calculate.SalaryCalculationParams = new SalaryCalculationParams
+            return _calculateMetricsCommandHandler.Handle(new CalculateMetricsCommand()
             {
                 EmployeeId = employeeSalaryDataRequest.EmployeeId,
                 RatePerHour = employeeSalaryDataRequest.RatePerHour,
                 FullSalary = employeeSalaryDataRequest.FullSalary,
                 EmploymentType = employeeSalaryDataRequest.EmploymentTypeValue,
                 Parking = employeeSalaryDataRequest.Parking
-            };
-            return _salaryService.CalculateMetricsAsync(calculate);
+            });
         }
 
         [HttpGet("findById/{empId}")]
@@ -46,7 +45,7 @@ namespace SalaryCalculation.Api.Controllers
         {
             GetEmployeeMetricsQuery getEmployeeMetricsQuery = new GetEmployeeMetricsQuery();
             getEmployeeMetricsQuery.EmployeeId = empId;
-            return _salaryService.GetEmployeeMetrics(getEmployeeMetricsQuery);
+            return _getEmployeeMetricsQueryHandler.Handle(getEmployeeMetricsQuery);
         }
     }
 }
