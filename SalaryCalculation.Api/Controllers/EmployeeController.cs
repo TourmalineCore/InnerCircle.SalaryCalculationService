@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SalaryCalculation.Api.Controllers.RequestModels;
+using SalaryCalculation.Application.Services;
 using SalaryCalculation.Application.Services.Commands;
 using SalaryCalculation.Application.Services.Dtos;
 using SalaryCalculation.Application.Services.Queries;
@@ -11,40 +11,38 @@ namespace SalaryCalculation.Api.Controllers
     {
         private readonly GetEmployeeMetricsQueryHandler _getEmployeeMetricsQueryHandler;
 
-        private readonly CalculateMetricsCommandHandler _calculateMetricsCommandHandler;
+        private readonly MetricsCalculationService _metricsCalculationService;
 
         public EmployeeController(GetEmployeeMetricsQueryHandler getEmployeeMetricsQueryHandler,
-            CalculateMetricsCommandHandler calculateMetricsCommandHandler)
+            MetricsCalculationService metricsCalculationService)
         {
             _getEmployeeMetricsQueryHandler = getEmployeeMetricsQueryHandler;
-            _calculateMetricsCommandHandler = calculateMetricsCommandHandler;
+            _metricsCalculationService = metricsCalculationService;
         }
 
         [HttpPost("calculate-financial-metrics")]
-        public Task CalculateMetrics([FromBody] EmployeeSalaryDataRequest employeeSalaryDataRequest)
+        public Task CalculateMetrics([FromBody] BasicSalaryMetrics employeeSalaryDataRequest)
         {
             var employeeId = 1;
             var ratePerHour = 400.00;
             var fullSalary = 20000.00;
             var employmentType = EmploymentType.Fulltime;
-            var parking = true;
+            var hasParking = true;
 
-            employeeSalaryDataRequest = new EmployeeSalaryDataRequest(employeeId, ratePerHour, fullSalary, employmentType, parking);
-            return _calculateMetricsCommandHandler.Handle(new CalculateMetricsCommand()
+            employeeSalaryDataRequest = new BasicSalaryMetrics(employeeId, ratePerHour, fullSalary, employmentType, hasParking);
+            return _metricsCalculationService.CalculateMetrics(new BasicSalaryMetrics()
             {
                 EmployeeId = employeeSalaryDataRequest.EmployeeId,
                 RatePerHour = employeeSalaryDataRequest.RatePerHour,
                 FullSalary = employeeSalaryDataRequest.FullSalary,
-                EmploymentType = employeeSalaryDataRequest.EmploymentTypeValue,
-                Parking = employeeSalaryDataRequest.Parking
+                EmploymentTypeValue = employeeSalaryDataRequest.EmploymentTypeValue,
+                HasParking = employeeSalaryDataRequest.HasParking
             });
         }
 
-        [HttpGet("findById/{empId}")]
-        public Task<EmployeeDto> GetMetrics([FromRoute] long empId)
+        [HttpGet("findById/{EmployeeId}")]
+        public Task<EmployeeDto> GetMetrics([FromRoute] GetEmployeeMetricsQuery getEmployeeMetricsQuery)
         {
-            GetEmployeeMetricsQuery getEmployeeMetricsQuery = new GetEmployeeMetricsQuery();
-            getEmployeeMetricsQuery.EmployeeId = empId;
             return _getEmployeeMetricsQueryHandler.Handle(getEmployeeMetricsQuery);
         }
     }

@@ -1,5 +1,6 @@
 
 using Microsoft.Extensions.DependencyInjection;
+using SalaryCalculation.Application.Services;
 using SalaryCalculation.Application.Services.Commands;
 using SalaryCalculation.Application.Services.Queries;
 
@@ -11,8 +12,8 @@ namespace SalaryCalculation.Application
         {
             
             services.AddTransient<GetEmployeeMetricsQueryHandler>();
-            services.AddTransient<CalculateMetricsCommandHandler>();
-
+            services.AddTransient<SaveCalculatedSalaryMetrics>();
+            services.AddTransient<MetricsCalculationService>();
             return services;
         }
     }

@@ -32,20 +32,20 @@ namespace SalaryCalculation.Domain
 
         public double EmploymentType { get; private set; }
 
-        public bool Parking { get; private set; }
+        public bool HasParking { get; private set; }
 
         public double ParkingCostPerMonth { get; private set; }
 
         public double AccountingPerMonth { get; private set; }
 
-        public EmployeeFinancialMetrics(long employeeId, double ratePerHour, double fullSalary, double employmentType, bool parking)
+        public EmployeeFinancialMetrics(long employeeId, double ratePerHour, double fullSalary, double employmentType, bool hasParking)
         {
             EmployeeId = employeeId;
             RatePerHour = ratePerHour;
             FullSalary = fullSalary;
             EmploymentType = employmentType;
-            Parking = parking;
-            ParkingCostPerMonth = parking ? ThirdPartyServicesPriceConsts.ParkingCostPerMonth : 0;
+            HasParking = hasParking;
+            ParkingCostPerMonth = hasParking ? ThirdPartyServicesPriceConsts.ParkingCostPerMonth : 0;
             AccountingPerMonth = ThirdPartyServicesPriceConsts.AccountingPerMonth;
         }
 
