@@ -18,7 +18,7 @@ namespace SalaryCalculation.Application.Services
         {
             var salaryMetrics = new EmployeeFinancialMetrics(calculateMetricsCommand.EmployeeId,
                 calculateMetricsCommand.RatePerHour,
-                calculateMetricsCommand.FullSalary,
+                calculateMetricsCommand.Pay,
                 calculateMetricsCommand.EmploymentTypeValue,
                 calculateMetricsCommand.HasParking);
 

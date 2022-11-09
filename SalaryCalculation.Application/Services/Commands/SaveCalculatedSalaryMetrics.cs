@@ -12,18 +12,18 @@ namespace SalaryCalculation.Application.Services.Commands
     {
         public long EmployeeId { get; set; }
         public double RatePerHour { get; set; }
-        public double FullSalary { get; set; }
+        public double Pay { get; set; }
         public EmploymentType EmploymentType { get; set; }
         public double EmploymentTypeValue { get; set; }
         public bool HasParking { get; set; }
 
         public BasicSalaryMetrics() { }
 
-        public BasicSalaryMetrics(long employeeId, double ratePerHour, double fullSalary, EmploymentType employmentType, bool hasParking)
+        public BasicSalaryMetrics(long employeeId, double ratePerHour, double pay, EmploymentType employmentType, bool hasParking)
         {
             EmployeeId = employeeId;
             RatePerHour = ratePerHour;
-            FullSalary = fullSalary;
+            Pay = pay;
             EmploymentType = employmentType;
             switch (employmentType)
             {

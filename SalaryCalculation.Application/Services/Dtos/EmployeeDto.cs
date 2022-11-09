@@ -3,33 +3,36 @@
     public class EmployeeDto
     {
         public long Id { get; set; }
-        public double Salary { get; set; }
-        public double HourCostFact { get; set; }
-        public double HourCostHand { get; set; }
-        public double Income { get; set; }
+        public double Pay { get; set; }
+        public double HourlyCostFact { get; set; }
+        public double HourlyCostHand { get; set; }
+        public double Earnings { get; set; }
         public double Expenses { get; set; }
         public double Profit { get; set; }
         public double ProfitAbility { get; set; }
-        public double SalaryBeforeTax { get; set; }
-        public double SalaryAftertax { get; set; }
+        public double GrossSalary { get; set; }
+        public double Retainer { get; set; }
+        public double NetSalary { get; set; }
 
         public EmployeeDto() { }
 
-        public EmployeeDto(long id, double salary, double hourCostFact,
-            double hourCostHand, double income, double expenses,
-            double profit, double profitability, double salaryBeforeTax, double salaryAfterTax
+        public EmployeeDto(long id, double pay, double hourlyCostFact,
+            double hourlyCostHand, double earnings, double expenses,
+            double profit, double profitability, double grossSalary, double netSaalry, 
+            double retainer
             )
         {
             Id = id;
-            Salary = salary;
-            HourCostFact = hourCostFact;
-            HourCostHand = hourCostHand;
-            Income = income;
+            Pay = pay;
+            HourlyCostFact = hourlyCostFact;
+            HourlyCostHand = hourlyCostHand;
+            Earnings = earnings;
             Expenses = expenses;
             Profit = profit;
             ProfitAbility = profitability;
-            SalaryBeforeTax = salaryBeforeTax;
-            SalaryAftertax = salaryAfterTax;
+            GrossSalary = grossSalary;
+            NetSalary = netSaalry;
+            Retainer = retainer;
         }
     }
 }

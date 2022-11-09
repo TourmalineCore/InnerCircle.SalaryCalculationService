@@ -9,19 +9,19 @@ namespace SalaryCalculation.Domain
         public long EmployeeId { get; private set; }
 
         private double salary;
-
         public double Salary { get { return salary; } private set { if (value >= 0) salary = value; else throw new ArgumentException(); } }
 
-        private double hourCostFact;
-        public double HourCostFact { get { return hourCostFact; } private set { if (value >= 0) hourCostFact = value; else throw new ArgumentException(); } }
+        private double hourlyCostFact;
 
-        private double hourCostHand;
+        public double HourlyCostFact { get { return hourlyCostFact; } private set { if (value >= 0) hourlyCostFact = value; else throw new ArgumentException(); } }
 
-        public double HourCostHand { get { return hourCostHand; } private set { if (value >= 0) hourCostHand = value; else throw new ArgumentException(); } }
+        private double hourlyCostHand;
 
-        private double income;
+        public double HourlyCostHand { get { return hourlyCostHand; } private set { if (value >= 0) hourlyCostHand = value; else throw new ArgumentException(); } }
 
-        public double Income { get { return income; } private set { if (value >= 0) income = value; else throw new ArgumentException(); } }
+        private double earnings;
+
+        public double Earnings { get { return earnings; } private set { if (value >= 0) earnings = value; else throw new ArgumentException(); } }
 
         private double expenses;
 
@@ -35,21 +35,25 @@ namespace SalaryCalculation.Domain
 
         public double ProfitAbility { get { return profitability; } private set { if (value >= 0) profitability = value; else throw new ArgumentException(); } }
 
-        private double salaryBeforeTax;
+        private double grossSalary;
 
-        public double SalaryBeforeTax { get { return salaryBeforeTax; } private set { if (value >= 0) salaryBeforeTax = value; else throw new ArgumentException(); } }
+        public double GrossSalary { get { return grossSalary; } private set { if (value >= 0) grossSalary = value; else throw new ArgumentException(); } }
 
-        private double salaryAfterTax;
+        private double netSalary;
 
-        public double SalaryAftertax { get { return salaryAfterTax; } private set { if (value >= 0) salaryAfterTax = value; else throw new ArgumentException(); } }
+        public double NetSalary { get { return netSalary; } private set { if (value >= 0) netSalary = value; else throw new ArgumentException(); } }
 
         private double ratePerHour;
 
         public double RatePerHour { get { return ratePerHour; } private set { if (value >= 0) ratePerHour = value; else throw new ArgumentException(); } }
 
-        private double fullSalary;
+        private double pay;
 
-        public double FullSalary { get { return fullSalary; } private set { if (value >= 0) fullSalary = value; else throw new ArgumentException(); } }
+        public double Pay { get { return pay; } private set { if (value >= 0) pay = value; else throw new ArgumentException(); } }
+
+        private double retainer;
+
+        public double Retainer { get { return retainer; } private set { if (value >= 0) retainer = value; else throw new ArgumentException(); } }
 
         public double EmploymentType { get; private set; }
 
@@ -59,11 +63,11 @@ namespace SalaryCalculation.Domain
 
         public double AccountingPerMonth { get; private set; }
 
-        public EmployeeFinancialMetrics(long employeeId, double ratePerHour, double fullSalary, double employmentType, bool hasParking)
+        public EmployeeFinancialMetrics(long employeeId, double ratePerHour, double pay, double employmentType, bool hasParking)
         {
             EmployeeId = employeeId;
             RatePerHour = ratePerHour;
-            FullSalary = fullSalary;
+            Pay = pay;
             EmploymentType = employmentType;
             HasParking = hasParking;
             ParkingCostPerMonth = hasParking ? ThirdPartyServicesPriceConsts.ParkingCostPerMonth : 0;
@@ -71,17 +75,22 @@ namespace SalaryCalculation.Domain
         }
 
 
-        private double CalculateHourCostFact()
+        private double CalculateHourlyCostFact()
         {
             return Expenses / WorkingPlanConsts.WorkingHoursInMonth;
         }
 
-        private double CalculateHourCostHand()
+        private double CalculateRetainer()
+        {
+            return NetSalary / 2;
+        }
+
+        private double CalculateHourlyCostHand()
         {
             return Salary / 160;
         }
 
-        private double CalculateIncome()
+        private double CalculateEarnings()
         {
             return RatePerHour * WorkingPlanConsts.WorkingHoursInMonth * EmploymentType;
         }
@@ -89,7 +98,7 @@ namespace SalaryCalculation.Domain
         private double CalculateExpenses(double mrot)
         {
             return GetNdflValue() +
-                SalaryAftertax + 
+                NetSalary + 
                 GetPensionContributions(mrot) + 
                 GetMedicalContributions(mrot) + 
                 GetSocialInsuranceContributions(mrot) +
@@ -100,17 +109,17 @@ namespace SalaryCalculation.Domain
 
         private double GetNdflValue()
         {
-            return SalaryBeforeTax * 0.13;
+            return GrossSalary * 0.13;
         }
 
         private double GetPensionContributions(double mrot)
         {
-            return mrot * 0.22 + (SalaryBeforeTax - mrot) * 0.1;
+            return mrot * 0.22 + (GrossSalary - mrot) * 0.1;
         }
 
         private double GetMedicalContributions(double mrot)
         {
-            return mrot * 0.051 + (SalaryBeforeTax - mrot) * 0.05;
+            return mrot * 0.051 + (GrossSalary - mrot) * 0.05;
         }
 
         private double GetSocialInsuranceContributions(double mrot)
@@ -120,32 +129,32 @@ namespace SalaryCalculation.Domain
 
         private double GetInjuriesContributions()
         {
-            return SalaryBeforeTax * 0.002;
+            return GrossSalary * 0.002;
         }
 
         private double CalculateProfit()
         {
-            return Income - Expenses;
+            return Earnings - Expenses;
         }
 
         private double CalculateProfitability()
         {
-            return (Income - Expenses) / Income * 100;
+            return (Earnings - Expenses) / Earnings * 100;
         }
 
-        private double CalculateSalaryBeforeTax(double districtCoeff)
+        private double CalculateGrossSalary(double districtCoeff)
         {
            return Salary + Salary * districtCoeff;
         }
 
-        private double CalculateSalaryAfterTax(double tax)
+        private double CalculateNetSalary(double tax)
         {
-            return SalaryBeforeTax - SalaryBeforeTax * tax;
+            return GrossSalary - GrossSalary * tax;
         }
 
         private double CalculateSalary()
         {
-            return FullSalary * EmploymentType;
+            return Pay * EmploymentType;
         }
 
         public void CalculateMetrics(double districtCoeff,
@@ -153,12 +162,13 @@ namespace SalaryCalculation.Domain
             double tax)
         {
             Salary = CalculateSalary();
-            SalaryBeforeTax = CalculateSalaryBeforeTax(districtCoeff);
-            SalaryAftertax = CalculateSalaryAfterTax(tax);
-            Income = CalculateIncome();
+            GrossSalary = CalculateGrossSalary(districtCoeff);
+            NetSalary = CalculateNetSalary(tax);
+            Earnings = CalculateEarnings();
             Expenses = CalculateExpenses(mrot);
-            HourCostFact = CalculateHourCostFact();
-            HourCostHand = CalculateHourCostHand();
+            HourlyCostFact = CalculateHourlyCostFact();
+            HourlyCostHand = CalculateHourlyCostHand();
+            Retainer = CalculateRetainer();
             Profit = CalculateProfit();
             ProfitAbility = CalculateProfitability();
         }

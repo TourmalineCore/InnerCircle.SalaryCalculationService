@@ -30,14 +30,15 @@ namespace SalaryCalculation.Application.Services.Queries
                 new EmployeeDto(
                 empFinancialMetrics.EmployeeId,
                 Math.Round(empFinancialMetrics.Salary,2),
-                Math.Round(empFinancialMetrics.HourCostFact,2),
-                Math.Round(empFinancialMetrics.HourCostHand, 2),
-                Math.Round(empFinancialMetrics.Income, 2),
+                Math.Round(empFinancialMetrics.HourlyCostFact,2),
+                Math.Round(empFinancialMetrics.HourlyCostHand, 2),
+                Math.Round(empFinancialMetrics.Earnings, 2),
                 Math.Round(empFinancialMetrics.Expenses, 2),
                 Math.Round(empFinancialMetrics.Profit, 2),
                 Math.Round(empFinancialMetrics.ProfitAbility, 2),
-                Math.Round(empFinancialMetrics.SalaryBeforeTax, 2),
-                Math.Round(empFinancialMetrics.SalaryAftertax, 2)
+                Math.Round(empFinancialMetrics.GrossSalary, 2),
+                Math.Round(empFinancialMetrics.NetSalary, 2),
+                Math.Round(empFinancialMetrics.Retainer,2)
                 ));
         }
     }

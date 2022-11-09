@@ -25,16 +25,16 @@ namespace SalaryCalculation.Api.Controllers
         {
             var employeeId = 1;
             var ratePerHour = 400.00;
-            var fullSalary = 20000.00;
+            var pay = 20000.00;
             var employmentType = EmploymentType.Fulltime;
             var hasParking = true;
 
-            employeeSalaryDataRequest = new BasicSalaryMetrics(employeeId, ratePerHour, fullSalary, employmentType, hasParking);
+            employeeSalaryDataRequest = new BasicSalaryMetrics(employeeId, ratePerHour, pay, employmentType, hasParking);
             return _metricsCalculationService.CalculateMetrics(new BasicSalaryMetrics()
             {
                 EmployeeId = employeeSalaryDataRequest.EmployeeId,
                 RatePerHour = employeeSalaryDataRequest.RatePerHour,
-                FullSalary = employeeSalaryDataRequest.FullSalary,
+                Pay = employeeSalaryDataRequest.Pay,
                 EmploymentTypeValue = employeeSalaryDataRequest.EmploymentTypeValue,
                 HasParking = employeeSalaryDataRequest.HasParking
             });
