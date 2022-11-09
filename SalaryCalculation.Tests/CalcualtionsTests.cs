@@ -108,5 +108,37 @@ namespace SalaryCalculation.Tests
             Assert.Equal(0, Math.Round(metrics.SalaryBeforeTax, 2));
             Assert.Equal(0, Math.Round(metrics.SalaryAftertax, 2));
         }
+
+        [Fact]
+        public void TestMetricsWithNullBasicMetrics()
+        {
+            var employeeId = 1;
+            var ratePerHour = 0;
+            var fullSalary = 0;
+            double employmentType = 0;
+
+            EmployeeFinancialMetrics metrics = new EmployeeFinancialMetrics(employeeId,
+                ratePerHour,
+                fullSalary,
+                employmentType, true);
+
+            Assert.Throws<ArgumentException>(() => metrics.CalculateMetrics(0.15, 15279, 0.13));
+        }
+
+        [Fact]
+        public void TestMetrics5()
+        {
+            var employeeId = 1;
+            var ratePerHour = 1;
+            var fullSalary = 1;
+            double employmentType = 1;
+
+            EmployeeFinancialMetrics metrics = new EmployeeFinancialMetrics(employeeId,
+                ratePerHour,
+                fullSalary,
+                employmentType, true);
+
+            Assert.Throws<ArgumentException>(() => metrics.CalculateMetrics(0.15, 15279, 0.13));
+        }
     }
 }
