@@ -8,27 +8,48 @@ namespace SalaryCalculation.Domain
 
         public long EmployeeId { get; private set; }
 
-        public double Salary { get; private set; }
+        private double salary;
 
-        public double HourCostFact { get; private set; }
+        public double Salary { get { return salary; } private set { if (value >= 0) salary = value; else throw new ArgumentException(); } }
 
-        public double HourCostHand { get; private set; }
+        private double hourCostFact;
+        public double HourCostFact { get { return hourCostFact; } private set { if (value >= 0) hourCostFact = value; else throw new ArgumentException(); } }
 
-        public double Income { get; private set; }
+        private double hourCostHand;
 
-        public double Expenses { get; private set; }
+        public double HourCostHand { get { return hourCostHand; } private set { if (value >= 0) hourCostHand = value; else throw new ArgumentException(); } }
 
-        public double Profit { get; private set; }
+        private double income;
 
-        public double ProfitAbility { get; private set; }
+        public double Income { get { return income; } private set { if (value >= 0) income = value; else throw new ArgumentException(); } }
 
-        public double SalaryBeforeTax { get; private set; }
+        private double expenses;
 
-        public double SalaryAftertax { get; private set; }
+        public double Expenses { get { return expenses; } private set { if (value >= 0) expenses = value; else throw new ArgumentException(); } }
 
-        public double RatePerHour { get; private set; }
+        private double profit;
 
-        public double FullSalary { get; private set; }
+        public double Profit { get { return profit; } private set { if (value >= 0) profit = value; else throw new ArgumentException(); } }
+
+        private double profitability;
+
+        public double ProfitAbility { get { return profitability; } private set { if (value >= 0) profitability = value; else throw new ArgumentException(); } }
+
+        private double salaryBeforeTax;
+
+        public double SalaryBeforeTax { get { return salaryBeforeTax; } private set { if (value >= 0) salaryBeforeTax = value; else throw new ArgumentException(); } }
+
+        private double salaryAfterTax;
+
+        public double SalaryAftertax { get { return salaryAfterTax; } private set { if (value >= 0) salaryAfterTax = value; else throw new ArgumentException(); } }
+
+        private double ratePerHour;
+
+        public double RatePerHour { get { return ratePerHour; } private set { if (value >= 0) ratePerHour = value; else throw new ArgumentException(); } }
+
+        private double fullSalary;
+
+        public double FullSalary { get { return fullSalary; } private set { if (value >= 0) fullSalary = value; else throw new ArgumentException(); } }
 
         public double EmploymentType { get; private set; }
 
