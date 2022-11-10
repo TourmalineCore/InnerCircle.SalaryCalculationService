@@ -21,23 +21,9 @@ namespace SalaryCalculation.Api.Controllers
         }
 
         [HttpPost("calculate-financial-metrics")]
-        public Task CalculateMetrics([FromBody] BasicSalaryMetrics employeeSalaryDataRequest)
+        public Task<long> CalculateMetrics([FromBody] BasicSalaryMetrics basicSalaryMetrics)
         {
-            var employeeId = 1;
-            var ratePerHour = 400.00;
-            var pay = 20000.00;
-            var employmentType = EmploymentType.Fulltime;
-            var hasParking = true;
-
-            employeeSalaryDataRequest = new BasicSalaryMetrics(employeeId, ratePerHour, pay, employmentType, hasParking);
-            return _metricsCalculationService.CalculateMetrics(new BasicSalaryMetrics()
-            {
-                EmployeeId = employeeSalaryDataRequest.EmployeeId,
-                RatePerHour = employeeSalaryDataRequest.RatePerHour,
-                Pay = employeeSalaryDataRequest.Pay,
-                EmploymentTypeValue = employeeSalaryDataRequest.EmploymentTypeValue,
-                HasParking = employeeSalaryDataRequest.HasParking
-            });
+            return _metricsCalculationService.CalculateMetrics(basicSalaryMetrics);
         }
 
         [HttpGet("findById/{EmployeeId}")]

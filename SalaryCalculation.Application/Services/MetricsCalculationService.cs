@@ -4,23 +4,31 @@ using SalaryCalculation.Domain;
 
 namespace SalaryCalculation.Application.Services
 {
+    public partial class BasicSalaryMetrics
+    {
+        public long EmployeeId { get; set; }
+        public double RatePerHour { get; set; }
+        public double Pay { get; set; }
+        public int EmploymentType { get; set; }
+        public bool HasParking { get; set; }
+
+    }
     public class MetricsCalculationService
     {
         private readonly ITaxDataService _taxDataService;
-        private readonly SaveCalculatedSalaryMetrics _calculateMetricsCommandHandler;
-        public MetricsCalculationService(ITaxDataService taxDataService, SaveCalculatedSalaryMetrics calculateMetricsCommandHandler)
+        private readonly SaveCalculatedSalaryMetrics _saveCalculatedSalaryMetrics;
+        public MetricsCalculationService(ITaxDataService taxDataService, SaveCalculatedSalaryMetrics saveCalculatedSalaryMetrics)
         {
             _taxDataService = taxDataService;
-            _calculateMetricsCommandHandler = calculateMetricsCommandHandler;
+            _saveCalculatedSalaryMetrics = saveCalculatedSalaryMetrics;
         }
-
-        public async Task<EmployeeFinancialMetrics> CalculateMetrics(BasicSalaryMetrics calculateMetricsCommand)
+        public async Task<long> CalculateMetrics(BasicSalaryMetrics basicSalaryMetrics)
         {
-            var salaryMetrics = new EmployeeFinancialMetrics(calculateMetricsCommand.EmployeeId,
-                calculateMetricsCommand.RatePerHour,
-                calculateMetricsCommand.Pay,
-                calculateMetricsCommand.EmploymentTypeValue,
-                calculateMetricsCommand.HasParking);
+            var salaryMetrics = new EmployeeFinancialMetrics(basicSalaryMetrics.EmployeeId,
+                basicSalaryMetrics.RatePerHour,
+                basicSalaryMetrics.Pay,
+                basicSalaryMetrics.EmploymentType,
+                basicSalaryMetrics.HasParking);
 
             var districtCoeff = await _taxDataService.GetChelyabinskDistrictCoeff();
             var personalIncomeTaxPercent = await _taxDataService.GetPersonalIncomeTaxPercent();
@@ -28,8 +36,8 @@ namespace SalaryCalculation.Application.Services
 
             salaryMetrics.CalculateMetrics(districtCoeff, minimalSizeOfSalary, personalIncomeTaxPercent);
 
-            _calculateMetricsCommandHandler.Handle(salaryMetrics);
-            return salaryMetrics;
+            _saveCalculatedSalaryMetrics.Handle(salaryMetrics);
+            return salaryMetrics.Id;
         }
     }
 }
